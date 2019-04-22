@@ -127,7 +127,7 @@ Promise.all([
    * a staging theme for this branch.
    */
   return new Promise((resolve, reject) => {
-    exec(`git cherry -v ${gitBase}`, (err, stdout, stderr) => {
+    exec(`git fetch --all; git cherry -v ${gitBase}`, (err, stdout, stderr) => {
       if (err) {
         reject(err)
       }
