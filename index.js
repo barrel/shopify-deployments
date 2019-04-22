@@ -1,3 +1,6 @@
+#! /usr/bin/env node
+'use strict'
+
 /**
  * @author Barrelny.com
  * @updated 3/31/2019
