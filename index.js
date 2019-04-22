@@ -127,19 +127,21 @@ Promise.all([
    * a staging theme for this branch.
    */
   return new Promise((resolve, reject) => {
-    exec(`git fetch --all; git cherry -v ${gitBase}`, (err, stdout, stderr) => {
+    exec(`git fetch --all`, (err, stdout, stderr) => {
       if (err) {
         reject(err)
       }
 
-      const commits = stdout
-        .split('\n')
-        .map(commit => (
-          commit.replace(/[+-] ?/, '').trim()
-        ))
-        .filter(commit => commit)
+      exec(`git cherry -v ${gitBase}`, (err, stdout, stderr) => {
+        const commits = stdout
+          .split('\n')
+          .map(commit => (
+            commit.replace(/[+-] ?/, '').trim()
+          ))
+          .filter(commit => commit)
 
-      resolve([changeDirSuccess, branch, themes, commits])
+        resolve([changeDirSuccess, branch, themes, commits])
+      })
     })
   })
 })
