@@ -1,0 +1,24 @@
+{
+  "name": "@barrelny/deploy",
+  "version": "0.0.1",
+  "description": "A Shopify deployment script for the devs at Barrel",
+  "main": "index.js",
+  "bin": {
+    "brrl-deploy": "./index.js"
+  },
+  "author": "maxrolon",
+  "license": "MIT",
+  "scripts": {
+    "publish": "npm publish --access public",
+    "start": "export ENV=staging; node ./index.js"
+  },
+  "dependencies": {
+    "@barrelny/cli": "github:barrel/barrel-cli#feature/ci-support",
+    "@shopify/themekit": "^1.1.1",
+    "js-yaml": "^3.13.1",
+    "moment": "^2.24.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "webpack": "^4.16.4"
+  }
+}
