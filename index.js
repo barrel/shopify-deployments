@@ -82,7 +82,7 @@ Promise.all([
     console.log('Getting current branch')
     
     if (process.env.CI_COMMIT_REF_NAME) {
-      return Promise.resolve(process.env.CI_COMMIT_REF_NAME)
+      return resolve(process.env.CI_COMMIT_REF_NAME)
     }
     
     exec('git branch', (err, stdout, stderr) => {
