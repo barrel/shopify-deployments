@@ -53,6 +53,7 @@ Promise.all([
    * new change updates that are on the current branch.
    */
   new Promise((resolve, reject) => {
+    console.log('Removing existing tmp directory')
     if (fs.existsSync(TMP_DIR) && !IS_QUICK_TEST) {
       exec(`rm -r ${TMP_DIR}`, (err, stdout, stderr) => {
         if (err) {
@@ -78,6 +79,7 @@ Promise.all([
    * are 20 themes active
    */
   new Promise((resolve, reject) => {
+    console.log('Getting current branch')
     exec('git branch', (err, stdout, stderr) => {
       if (err) {
         reject(err)
@@ -111,6 +113,7 @@ Promise.all([
       'Authorization': `Basic ${Buffer.from(config['api_key'] + ':' + config['password']).toString('base64')}`
     }
   }).then(response => {
+    console.log('Existing themes fetched')
     const decoded = JSON.parse(response)
     const {themes = []} = decoded
     themes.sort((a, b) => {
@@ -128,11 +131,13 @@ Promise.all([
    * a staging theme for this branch.
    */
   return new Promise((resolve, reject) => {
+    console.log(`Running 'git fetch --all'`)
     exec(`git fetch --all`, (err, stdout, stderr) => {
       if (err) {
         reject(err)
       }
-
+      
+      console.log(`git 'cherry -v ${gitBase}'`)
       exec(`git cherry -v ${gitBase}`, (err, stdout, stderr) => {
         const commits = stdout
           .split('\n')
@@ -147,6 +152,7 @@ Promise.all([
   })
 })
 .then(([changeDirSuccess, branch, themes, commits]) => {
+  console.log('Running main routine')
   /**
    * If the current branch is a feature, bugfix
    * or hotfix branch, we need to look for an existing
@@ -199,6 +205,7 @@ Promise.all([
   if (IS_QUICK_TEST) {
     return Promise.resolve(true)
   }
+  console.log('Removing tmp directory')
   return new Promise((resolve, reject) => {
     exec(`rm -r ${TMP_DIR}`, (err, stdout, stderr) => {
       if (err) {
@@ -207,8 +214,6 @@ Promise.all([
       resolve(true)
     })
   })
-}).then(() => {
-  process.exit()
 })
 
 function isAlreadyDeployedThemeForBranch (themes = [], branch, commits = [], noLessThan7DaysOld = false) {
