@@ -1,5 +1,6 @@
 #! /usr/bin/env node
-'use strict'
+
+console.log('testing');
 
 /**
  * @author Barrelny.com
