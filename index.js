@@ -157,6 +157,9 @@ Promise.all([
   })
 })
 .then(([changeDirSuccess, branch, themes, commits]) => {
+  console.log('Commits on this branch:')
+  console.dir(commits)
+  
   console.log('Running main routine')
   console.log(`Current branch: ${branch}`)
   /**
