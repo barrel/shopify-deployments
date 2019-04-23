@@ -153,6 +153,7 @@ Promise.all([
 })
 .then(([changeDirSuccess, branch, themes, commits]) => {
   console.log('Running main routine')
+  console.log(`Current branch: ${branch}`)
   /**
    * If the current branch is a feature, bugfix
    * or hotfix branch, we need to look for an existing
@@ -171,6 +172,7 @@ Promise.all([
    * to it
    */
   if (/feature|hotfix|bugfix|develop/i.test(branch)) {
+    console.log(`The current branch is not 'master'`)
     // https://stackoverflow.com/questions/14848274/git-log-to-get-commits-only-for-a-specific-branch
     return isAlreadyDeployedThemeForBranch(themes, branch, commits, /develop/.test(branch))
       .then(existingTheme => {
@@ -193,14 +195,18 @@ Promise.all([
    * theme.
    */
   if (/master/i.test(branch) && STAGE === 'backup') {
+    console.log(`The current branch is 'master' and the stage is 'backup'`)
     return duplicateCurrentBase(themes, true)
   }
 
   if (/master/i.test(branch) && STAGE === 'deploy') {
+    console.log(`The current branch is 'master' and the stage is 'deploy'`)
     return getBase(themes, true).then(themeID => {
       return buildAndDeploy(themeID)
     })
   }
+  
+  console.log('No routine enacted')
 }).then(() => {
   if (IS_QUICK_TEST) {
     return Promise.resolve(true)
