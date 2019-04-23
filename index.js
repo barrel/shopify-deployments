@@ -68,7 +68,7 @@ Promise.all([
       fs.mkdirSync(TMP_DIR)
     }
 
-    process.chdir(TMP_DIR)
+    return Promise.resolve(process.chdir(TMP_DIR))
   }),
 
   /**
@@ -116,7 +116,7 @@ Promise.all([
     themes.sort((a, b) => {
       return new Date(b.updated_at) - new Date(a.updated_at)
     })
-    return themes
+    return Promise.resolve(themes)
   })
 ])
 .then(([changeDirSuccess, branch, themes]) => {
