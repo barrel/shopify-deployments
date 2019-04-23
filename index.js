@@ -142,8 +142,8 @@ Promise.all([
         reject(err)
       }
       
-      console.log(`git 'cherry -v ${gitBase}'`)
-      exec(`git cherry -v ${gitBase}`, (err, stdout, stderr) => {
+      console.log(`git log --pretty=format:"%H" ${gitBase}..HEAD`)
+      exec(`git log --pretty=format:"%H" ${gitBase}..HEAD`, (err, stdout, stderr) => {
         const commits = stdout
           .split('\n')
           .map(commit => (
