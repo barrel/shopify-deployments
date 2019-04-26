@@ -291,13 +291,13 @@ function getBase (themes = [], forcePublished = false) {
 
   // If the published theme is not a dev theme, then
   // use this as the base
-  if (/(live|stage)/i.test(env)) {
+  if (/(live|stage|staging)/i.test(env)) {
     return Promise.resolve(publishedTheme)
   }
 
   const unpublishedBase = themes.find(theme => {
     const [_env = 'DEV'] = theme.name.split(' - ')
-    if (/(live|stage)/i.test(_env)) {
+    if (/(live|stage|staging)/i.test(_env)) {
       return theme
     }
     return false
